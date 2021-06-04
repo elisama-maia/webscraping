@@ -8,7 +8,6 @@ function pesquisa() {
     var input = document.getElementById("searchbar").value;
     p = input.split(" ").join("+");
     q = input.split(" ").join("%20");
-    sendReqColombo(q);
     sendReqSaldao(p);
     sendReqCasa(q);
 }
@@ -26,51 +25,6 @@ function reajustar() {
     $("header.top").animate({
         padding: "2% 0"
     });
-}
-
-function rasparColombo(documento) {
-    var imgs = documento.querySelectorAll(".nm-product-img");
-    var ps = documento.querySelectorAll(".nm-product-name");
-    var preco = documento.querySelectorAll(".nm-price");
-    var parcela = documento.querySelectorAll(".nm-installment-container");
-    var link2 = documento.querySelectorAll(".nm-product-info");
-    var logo = "https://e3ba6e8732e83984.cdn.gocache.net/uploads/image/file/2052863/regular_43809099b8783e285d0e7fb3c32076e5.png";
-    for (let i = 0; i < 3; i++) {
-        var divHTML = document.querySelector(".destaques_uni");
-        var divCelular = document.createElement("div");
-        var img = document.createElement("img");
-        var divNome = document.createElement("div");
-        var divPreco = document.createElement("div");
-        var link = document.createElement("a");
-        var divLogo = document.createElement("img");
-        divCelular.setAttribute("class", "divHome");
-        divCelular.setAttribute("id", preco[i].innerHTML.substr(0, preco[i].innerHTML.indexOf(',')).replace(/\D+/g, ''));
-        price[contador] = preco[i].innerHTML.substr(0, preco[i].innerHTML.indexOf(',')).replace(/\D+/g, '');
-        img.setAttribute("class", "imgNew");
-        divNome.setAttribute("class", "divNome");
-        divPreco.setAttribute("class", "divPreco");
-        divLogo.setAttribute("class", "divLogo");
-        link.setAttribute("class", "link");
-        link.target = "_blank";
-        var rep = imgs[i].src;
-        rep = rep.replace("file", "https");
-        img.src = rep;
-        divNome.innerHTML = ps[i].innerHTML;
-        divPreco.innerHTML = preco[i].innerHTML + " à vista ou " + parcela[i].innerHTML;
-        divLogo.src = logo;
-        link.appendChild(img);
-        link.appendChild(divNome);
-        link.appendChild(divPreco);
-        divCelular.appendChild(link);
-        divCelular.appendChild(divLogo);
-        divHTML.appendChild(divCelular);
-        var rep2 = link2[i].href;
-        rep2 = rep2.replace("file", "https");
-        link2[i].target = "_blank";
-        link2[i].href = rep2;
-        link.href = rep2;
-        contador = contador + 1;
-    }
 }
 
 function rasparSaldao(documento) {
@@ -160,17 +114,6 @@ function rasparCasa(documento) {
         link.href = link2[i].href;
         contador = contador + 1;
     }
-}
-
-function sendReqColombo(q) {
-    fetch("https://cors-anywhere.herokuapp.com/https://pesquisa.colombo.com.br/busca?q=" + q + "&televendas=")
-        .then(resp => resp.text())
-        .then(pg => {
-            let dom = new DOMParser();
-            let documento = dom.parseFromString(pg, "text/html");
-            rasparColombo(documento);
-        })
-        .catch(e => document.write(e));
 }
 
 function sendReqSaldao(p) {
